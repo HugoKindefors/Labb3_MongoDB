@@ -1,10 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Labb3.Models;
 
 public class Question : INotifyPropertyChanged
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string? Id { get; set; }
+
     private string _query = string.Empty;
     private string _correctAnswer = string.Empty;
     private string[] _incorrectAnswer = new string[3];
@@ -26,46 +32,23 @@ public class Question : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     public string Query
     {
         get => _query;
-        set
-        {
-            if (_query != value)
-            {
-                _query = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_query != value) { _query = value; OnPropertyChanged(); } }
     }
 
     public string CorrectAnswer
     {
         get => _correctAnswer;
-        set
-        {
-            if (_correctAnswer != value)
-            {
-                _correctAnswer = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_correctAnswer != value) { _correctAnswer = value; OnPropertyChanged(); } }
     }
 
     public string[] IncorrectAnswer
     {
         get => _incorrectAnswer;
-        set
-        {
-            if (_incorrectAnswer != value)
-            {
-                _incorrectAnswer = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_incorrectAnswer != value) { _incorrectAnswer = value; OnPropertyChanged(); } }
     }
 }
