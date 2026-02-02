@@ -74,8 +74,8 @@ namespace Labb3.ViewModel
 
         public bool IsConfigurationMode => !_isPlayMode;
 
-        private readonly JsonStorageService _storage = new();
-        
+        private readonly MongoStorageService _storage = new(App.Mongo.Database);
+
         public ICommand NewPackCommand { get; }
         public ICommand SelectPackCommand { get; }
         public ICommand DeletePackCommand { get; }
