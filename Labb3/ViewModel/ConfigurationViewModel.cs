@@ -1,18 +1,43 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Labb3.Command;
 using Labb3.Models;
+using Labb3.Services;
 
 namespace Labb3.ViewModel
 {
     class ConfigurationViewModel : ViewModelBase
     {
         private readonly MainWindowViewModel? _mainWindowViewModel;
+        private readonly CategoryService _categoryService;
+
+        public ObservableCollection<Category> Categories { get; } = new();
+
+        private Category? _selectedCategory;
+
+        public Category? SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (SetProperty(ref _selectedCategory, value))
+                {
+                    if (_mainWindowViewModel?.ActivePack is not null && _selectedCategory is not null)
+                    {
+                        _mainWindowViewModel.ActivePack.CategoryId = _selectedCategory.Id;
+                        _mainWindowViewModel.ActivePack.CategoryName = _selectedCategory.Name;
+                    }
+                }
+            }
+        }
 
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
+            _categoryService = new CategoryService(App.Mongo.Database);
 
             if (_mainWindowViewModel is INotifyPropertyChanged inpc)
             {
@@ -23,6 +48,7 @@ namespace Labb3.ViewModel
                         RaisePropertyChanged(nameof(Questions));
                         SelectedQuestion = null;
                         RaiseCanExecutes();
+                        LoadCategoryForActivePack();
                     }
                 };
             }
@@ -34,6 +60,32 @@ namespace Labb3.ViewModel
 
             AddQuestionCommand = new DelegateCommand(_ => AddQuestion(), _ => ActivePackExists());
             RemoveQuestionCommand = new DelegateCommand(_ => RemoveSelected(), _ => ActivePackExists() && SelectedQuestion is not null);
+
+            _ = LoadCategoriesAsync();
+        }
+
+        private async Task LoadCategoriesAsync()
+        {
+            var categories = await _categoryService.LoadAllAsync();
+            Categories.Clear();
+            foreach (var category in categories)
+            {
+                Categories.Add(category);
+            }
+
+            LoadCategoryForActivePack();
+        }
+
+        private void LoadCategoryForActivePack()
+        {
+            if (_mainWindowViewModel?.ActivePack is null) return;
+
+            var categoryId = _mainWindowViewModel.ActivePack.CategoryId;
+            if (!string.IsNullOrWhiteSpace(categoryId))
+            {
+                _selectedCategory = Categories.FirstOrDefault(c => c.Id == categoryId);
+                RaisePropertyChanged(nameof(SelectedCategory));
+            }
         }
 
         public ObservableCollection<Question> Questions
