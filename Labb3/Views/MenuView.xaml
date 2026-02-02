@@ -37,6 +37,8 @@
             <MenuItem Header="Add Question" Icon="{fa:Icon plus}" Command="{Binding ConfigurationViewModel.AddQuestionCommand}" InputGestureText="Ctrl+A"/>
             <MenuItem Header="Remove Question" Icon ="{fa:Icon minus}" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" InputGestureText="Alt+Q" />
             <MenuItem Header="Pack Options"  Icon="{fa:Icon sliders }" Command="{Binding OpenPackOptionsCommand}" InputGestureText="Ctrl+P"/>
+            <Separator/>
+            <MenuItem Header="Manage Categories" Icon="{fa:Icon tags}" Command="{Binding OpenCategoryManagementCommand}" InputGestureText="Ctrl+M"/>
         </MenuItem>
         <MenuItem Header="_View" >
             <MenuItem Header="Play" Icon="{fa:Icon play}" Command="{Binding StartPlayCommand}" InputGestureText="Alt+P"/>

@@ -84,6 +84,7 @@ namespace Labb3.ViewModel
         public ICommand SwitchToConfigurationCommand { get; }
         public ICommand OpenPackOptionsCommand { get; }
         public ICommand SavePackCommand { get; }
+        public ICommand OpenCategoryManagementCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -120,6 +121,8 @@ namespace Labb3.ViewModel
                 async _ => await SavePackToFileAsync(), 
                 _ => ActivePack is not null
             );
+
+            OpenCategoryManagementCommand = new DelegateCommand(_ => OpenCategoryManagement());
 
             _ = LoadPacksOnStartAsync();
         }
@@ -226,6 +229,24 @@ namespace Labb3.ViewModel
             {
                 RaisePropertyChanged(nameof(ActivePack));
             }
+        }
+
+        private void OpenCategoryManagement()
+        {
+            var dialog = new Window
+            {
+                Title = "Hantera Kategorier",
+                Width = 800,
+                Height = 450,
+                Content = new Views.CategoryManagementView(),
+                Owner = Application.Current?.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            dialog.ShowDialog();
+
+            // Refresh categories in ConfigurationViewModel after closing
+            ConfigurationViewModel?.RaisePropertyChanged(nameof(ConfigurationViewModel.Categories));
         }
 
         private void ToggleFullScreen()
