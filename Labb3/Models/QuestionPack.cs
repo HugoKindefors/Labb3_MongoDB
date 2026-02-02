@@ -33,5 +33,11 @@ public class QuestionPack
 
     public int TimeLimitInSeconds { get; set; }
 
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string? CategoryId { get; set; }
+
+    [BsonIgnore]
+    public string? CategoryName { get; set; }
+
     public List<Question> Questions { get; set; }
 }

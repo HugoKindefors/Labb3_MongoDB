@@ -31,6 +31,16 @@ public class QuestionPackViewModel : ViewModelBase
             _model.Questions.Clear();
     }
 
+    public string? Id
+    {
+        get => _model.Id;
+        set
+        {
+            _model.Id = value;
+            RaisePropertyChanged();
+        }
+    }
+
     public string Name
     {
         get => _model.Name;
@@ -57,6 +67,26 @@ public class QuestionPackViewModel : ViewModelBase
         set
         {
             _model.TimeLimitInSeconds = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public string? CategoryId
+    {
+        get => _model.CategoryId;
+        set
+        {
+            _model.CategoryId = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public string? CategoryName
+    {
+        get => _model.CategoryName;
+        set
+        {
+            _model.CategoryName = value;
             RaisePropertyChanged();
         }
     }
