@@ -42,8 +42,6 @@ Applikationen erbjuder följande funktioner:
 - MongoDB.Driver
 - MVVM-arkitektur
 - Asynkrona databas-anrop (`async/await`)
-- Git & GitHub
-
 ---
 
 ## ▶️ Köra projektet
