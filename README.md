@@ -34,41 +34,6 @@ Applikationen erbjuder följande funktioner:
 
 ---
 
-## 🗄️ Databas
-
-- Databasen skapas automatiskt vid första körning
-- MongoDB körs lokalt på `localhost`
-- Databasens namn är:  
-  **`DittFörnamnDittEfternamn`** (enligt labbinstruktionerna)
-
-### Collections som används:
-- `questionPacks`
-- `categories`
-
-Applikationen ansvarar själv för att:
-- skapa databasen
-- skapa collections
-- seed:a demodata om databasen är tom
-
----
-
-## 🔄 CRUD-operationer
-
-Applikationen uppfyller samtliga CRUD-krav:
-
-### Question Packs
-- **Create** – skapa nytt quiz
-- **Read** – visa befintliga quiz
-- **Update** – redigera quiz och frågor
-- **Delete** – ta bort quiz
-
-### Categories
-- **Create** – lägga till kategori
-- **Read** – visa kategorier i dropdown
-- **Delete** – ta bort kategori
-
----
-
 ## ⚙️ Tekniker & verktyg
 
 - C#
